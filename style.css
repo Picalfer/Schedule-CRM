@@ -10,6 +10,12 @@
     --open-window-bg: #fff1f2;
     --permanent-lesson-bg: #e0e7ff;
     --one-time-lesson-bg: #dcfce7;
+    /* Переменные для темной темы */
+    --dark-bg: #1a1b1e;
+    --dark-header-bg: #2d2e32;
+    --dark-border-color: #3a3b3e;
+    --dark-text-primary: #e2e8f0;
+    --dark-text-secondary: #a0aec0;
 }
 
 * {
@@ -410,15 +416,13 @@ body {
 /* Открытые окошки */
 .open-window {
     background: linear-gradient(45deg, #f0f9ff, #e0f2fe);
-    /* Нежно-голубой градиент */
     border-left: 3px solid #38bdf8;
-    /* Голубой */
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .open-window:hover {
-    background: linear-gradient(45deg, #e0f2fe, #bae6fd);
+    background: linear-gradient(45deg, #e0f2fe, #e0f2fe);
     border-left: 3px solid #0ea5e9;
 }
 
@@ -614,4 +618,359 @@ body {
     to {
         transform: rotate(180deg);
     }
+}
+
+/* Стили для темной темы */
+body.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--dark-text-primary);
+}
+
+body.dark-theme #schedule-container {
+    background: linear-gradient(180deg,
+        var(--dark-bg) 0%,
+        var(--dark-header-bg) 30%,
+        var(--dark-header-bg) 100%);
+    border-color: var(--dark-border-color);
+}
+
+body.dark-theme .day-header,
+body.dark-theme #headers {
+    background-color: var(--dark-header-bg);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+body.dark-theme .week-day,
+body.dark-theme .time-column {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-border-color);
+}
+
+body.dark-theme .hour,
+body.dark-theme .time {
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+/* Стили для переключателя */
+.theme-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Дополнительные стили для темной темы */
+body.dark-theme .nav-button {
+    background-color: var(--dark-header-bg);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+body.dark-theme .nav-button:hover {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-text-secondary);
+}
+
+body.dark-theme .icon-button {
+    background: linear-gradient(135deg, var(--dark-header-bg), var(--dark-bg));
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .icon-button:hover {
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Стили для открытых окошек в темной теме */
+body.dark-theme .open-window {
+    background: linear-gradient(45deg, var(--dark-header-bg), var(--dark-bg));
+    border-left-color: var(--primary-color);
+    transition: all 0.3s ease-in-out;
+}
+
+body.dark-theme .open-window:hover {
+    background: linear-gradient(45deg, 
+        var(--dark-header-bg) 0%,
+        var(--dark-header-bg) 100%
+    );
+}
+
+/* Обновленные стили для уроков в темной теме */
+body.dark-theme .lesson {
+    background-color: var(--dark-header-bg);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .lesson.permanent {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));
+    border-color: var(--primary-color);
+    border-width: 1.5px;
+}
+
+body.dark-theme .lesson.one-time {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+    border-color: #10b981;
+    border-width: 1.5px;
+}
+
+body.dark-theme .lesson:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Обновляем стили для уроков в открытых окошках в темной теме */
+body.dark-theme .open-window .lesson {
+    background-color: var(--dark-header-bg);
+    border-color: var(--dark-border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .open-window .lesson.permanent {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));
+    border-left: 3px solid var(--primary-color);
+}
+
+body.dark-theme .open-window .lesson.one-time {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+    border-left: 3px solid #10b981;
+}
+
+/* Обновляем цвет текста для информации об уроке в темной теме */
+body.dark-theme .lesson h4,
+body.dark-theme .lesson p {
+    color: var(--dark-text-primary);
+}
+
+body.dark-theme .lesson-info {
+    color: var(--dark-text-secondary);
+}
+
+/* Улучшенные стили для модальных окон в темной теме */
+body.dark-theme .modal {
+    background-color: rgba(0, 0, 0, 0.75); /* Более темный фон для оверлея */
+}
+
+body.dark-theme .modal-content {
+    background: var(--dark-bg);
+    border: 1px solid var(--dark-border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .modal-header {
+    background: var(--dark-header-bg);
+    border-bottom: 1px solid var(--dark-border-color);
+    padding: 20px 24px;
+}
+
+body.dark-theme .modal-header h3 {
+    color: var(--dark-text-primary);
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+/* Стили для формы в темной теме */
+body.dark-theme .form-group {
+    background: var(--dark-header-bg);
+    border: 1px solid var(--dark-border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+body.dark-theme .form-group label {
+    color: var(--dark-text-primary);
+    font-size: 0.95em;
+    margin-bottom: 8px;
+}
+
+body.dark-theme .form-group input[type="text"],
+body.dark-theme .form-group textarea {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--dark-border-color);
+    border-radius: 8px;
+    color: var(--dark-text-primary);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
+}
+
+body.dark-theme .form-group input[type="text"]:focus,
+body.dark-theme .form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+body.dark-theme .form-group input[readonly] {
+    background-color: var(--dark-bg);
+    border-color: transparent;
+    color: var(--dark-text-secondary);
+}
+
+/* Стили для информации об уроке в модальном окне */
+body.dark-theme .lesson-info {
+    color: var(--dark-text-secondary);
+    background: var(--dark-bg);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+body.dark-theme .lesson-info p {
+    color: var(--dark-text-primary);
+    margin: 4px 0;
+}
+
+/* Стили для футера модального окна */
+body.dark-theme .modal-footer {
+    background: var(--dark-header-bg);
+    border-top: 1px solid var(--dark-border-color);
+    padding: 20px 24px;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Обновленные стили для разных типов уроков */
+body.dark-theme .modal-content.permanent .modal-header {
+    background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.15),
+        var(--dark-header-bg));
+}
+
+body.dark-theme .modal-content.one-time .modal-header {
+    background: linear-gradient(135deg, 
+        rgba(16, 185, 129, 0.15),
+        var(--dark-header-bg));
+}
+
+/* Стили для крестика в темной теме */
+body.dark-theme .close {
+    color: var(--dark-text-secondary);
+    opacity: 0.8;
+    transition: all 0.2s ease;
+    font-size: 28px;
+    top: 15px;
+    right: 25px;
+}
+
+body.dark-theme .close:hover {
+    color: var(--dark-text-primary);
+    opacity: 1;
+}
+
+/* Стили для скроллбара в темной теме */
+body.dark-theme .modal-content::-webkit-scrollbar,
+body.dark-theme #schedule::-webkit-scrollbar {
+    width: 8px;
+}
+
+body.dark-theme .modal-content::-webkit-scrollbar-track,
+body.dark-theme #schedule::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+body.dark-theme .modal-content::-webkit-scrollbar-thumb,
+body.dark-theme #schedule::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+body.dark-theme .modal-content::-webkit-scrollbar-thumb:hover,
+body.dark-theme #schedule::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Обновленные стили для модального окна настроек в темной теме */
+body.dark-theme #settings-modal .form-group {
+    background: var(--dark-header-bg);
+    border: 1px solid var(--dark-border-color);
+    padding: 16px 20px;
+}
+
+body.dark-theme #settings-modal select {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--dark-border-color);
+    color: var(--dark-text-primary);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+body.dark-theme #settings-modal select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Стили для выпадающего списка в темной теме */
+body.dark-theme #settings-modal select option {
+    background-color: var(--dark-bg);
+    color: var(--dark-text-primary);
+}
+
+body.dark-theme #settings-modal select:focus option:checked,
+body.dark-theme #settings-modal select option:hover {
+    background: var(--dark-header-bg);
+    color: var(--dark-text-primary);
+}
+
+/* Стили для выпадающего списка в Firefox */
+body.dark-theme #settings-modal select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 var(--dark-text-primary);
+}
+
+body.dark-theme #settings-modal select optgroup {
+    background-color: var(--dark-bg);
+    color: var(--dark-text-secondary);
 }

@@ -7,6 +7,14 @@ export class SettingsManager {
         this.closeButton = this.modal.querySelector('.close');
         this.cancelButton = this.modal.querySelector('.cancel-button');
         this.submitButton = this.modal.querySelector('.submit-button');
+        this.themeSwitch = document.getElementById('theme-switch');
+
+        // Загружаем сохраненную тему
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            this.themeSwitch.checked = true;
+        }
 
         this.setupEventListeners();
         this.initializeTimeOptions();
@@ -57,5 +65,15 @@ export class SettingsManager {
                 alert('Время начала должно быть меньше времени окончания');
             }
         };
+
+        this.themeSwitch.addEventListener('change', () => {
+            if (this.themeSwitch.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        });
     }
 } 
