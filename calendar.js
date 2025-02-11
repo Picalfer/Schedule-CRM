@@ -277,16 +277,25 @@ export class Calendar {
             const response = await fetch(url);
             this.scheduleData = await response.json();
             
-            // Загружаем настройки рабочих часов
-            if (this.scheduleData.settings?.workingHours) {
-                this.startHour = this.scheduleData.settings.workingHours.start;
-                this.endHour = this.scheduleData.settings.workingHours.end;
+            // Загружаем сохраненные настройки часов из localStorage
+            const savedStartHour = localStorage.getItem('startHour');
+            const savedEndHour = localStorage.getItem('endHour');
+            
+            if (savedStartHour && savedEndHour) {
+                this.startHour = parseInt(savedStartHour);
+                this.endHour = parseInt(savedEndHour);
+            } else {
+                // Если нет сохраненных настроек, используем значения из data.json
+                if (this.scheduleData.settings?.workingHours) {
+                    this.startHour = this.scheduleData.settings.workingHours.start;
+                    this.endHour = this.scheduleData.settings.workingHours.end;
+                }
             }
             
             document.querySelector('.teacher-name').textContent = 
                 `${this.scheduleData.teacher.firstName} ${this.scheduleData.teacher.lastName}`;
             
-            // Генерируем слоты времени с новыми настройками
+            // Генерируем слоты времени с загруженными настройками
             this.generateTimeSlots();
             
             this.updateCalendar();

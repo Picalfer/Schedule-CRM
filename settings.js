@@ -9,15 +9,34 @@ export class SettingsManager {
         this.submitButton = this.modal.querySelector('.submit-button');
         this.themeSwitch = document.getElementById('theme-switch');
 
-        // Загружаем сохраненную тему
+        // Загружаем сохраненные настройки
+        this.loadSavedSettings();
+        
+        this.setupEventListeners();
+        this.initializeTimeOptions();
+    }
+
+    loadSavedSettings() {
+        // Загружаем тему
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-theme');
             this.themeSwitch.checked = true;
         }
 
-        this.setupEventListeners();
-        this.initializeTimeOptions();
+        // Загружаем сохраненные часы
+        const savedStartHour = localStorage.getItem('startHour');
+        const savedEndHour = localStorage.getItem('endHour');
+        
+        if (savedStartHour && savedEndHour) {
+            const startHour = parseInt(savedStartHour);
+            const endHour = parseInt(savedEndHour);
+            
+            // Проверяем валидность сохраненных значений
+            if (startHour < endHour && startHour >= 0 && endHour <= 23) {
+                this.calendar.updateWorkingHours(startHour, endHour);
+            }
+        }
     }
 
     initializeTimeOptions() {
@@ -59,6 +78,10 @@ export class SettingsManager {
             const endHour = parseInt(this.endHourSelect.value);
 
             if (startHour < endHour) {
+                // Сохраняем настройки в localStorage
+                localStorage.setItem('startHour', startHour);
+                localStorage.setItem('endHour', endHour);
+                
                 this.calendar.updateWorkingHours(startHour, endHour);
                 this.close();
             } else {
