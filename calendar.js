@@ -87,7 +87,9 @@ export class Calendar {
         const statusText = lesson.status === 'permanent' ? 'Постоянный урок' : 'Разовый урок';
         
         return `
-            <div class="lesson ${lesson.status}" data-lesson-id="${lesson.id}" onclick="openLessonModal()">
+            <div class="lesson ${lesson.status}" 
+                 data-lesson-id="${lesson.id}" 
+                 onclick="window.openLessonModal(${JSON.stringify(lesson).replace(/"/g, '&quot;')})">
                 <h4 data-emoji="${emoji}">${statusText}</h4>
                 <p>Ученик: ${lesson.student}</p>
                 <p>Предмет: ${lesson.subject}</p>

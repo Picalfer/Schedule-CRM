@@ -15,4 +15,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Глобальная функция для открытия модального окна (используется в HTML)
-window.openLessonModal = () => modalManager.open();
+window.openLessonModal = (lessonData) => modalManager.open(lessonData);
