@@ -11,6 +11,13 @@ export class LessonModal {
     }
 
     open(lessonData) {
+        this.modal.style.display = 'block';
+        
+        // Добавляем класс типа урока к модальному окну
+        const modalContent = this.modal.querySelector('.modal-content');
+        modalContent.classList.remove('permanent', 'one-time');
+        modalContent.classList.add(lessonData.status);
+        
         // Форматируем сегодняшнюю дату
         const today = new Date();
         const formattedDate = today.toLocaleDateString('ru-RU', {
@@ -33,8 +40,6 @@ export class LessonModal {
         const statusText = lessonData.status === 'permanent' ? 'Постоянный урок' : 'Разовый урок';
         this.modal.querySelector('.lesson-type').innerHTML = `${emoji} ${statusText}`;
         this.modal.querySelector('.lesson-student').textContent = `Ученик: ${lessonData.student}`;
-        
-        this.modal.style.display = "block";
     }
 
     close() {

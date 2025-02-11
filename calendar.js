@@ -3,6 +3,8 @@ export class Calendar {
         this.currentWeekOffset = 0;
         this.scheduleData = null;
         this.displayedLessons = new Set();
+        this.startHour = 6;  // значение по умолчанию
+        this.endHour = 18;   // значение по умолчанию
     }
 
     getWeekDates(offset = 0) {
@@ -97,6 +99,31 @@ export class Calendar {
         `;
     }
 
+    generateTimeSlots() {
+        const timeColumn = document.querySelector('.time-column');
+        const weekDays = document.querySelectorAll('.week-day');
+        
+        // Очищаем существующие слоты
+        timeColumn.innerHTML = '';
+        weekDays.forEach(day => day.innerHTML = '');
+        
+        // Создаем новые слоты времени
+        for (let hour = this.startHour; hour <= this.endHour; hour++) {
+            // Добавляем время в колонку времени
+            const timeSlot = document.createElement('div');
+            timeSlot.className = 'time';
+            timeSlot.innerHTML = `<p>${String(hour).padStart(2, '0')}:00</p>`;
+            timeColumn.appendChild(timeSlot);
+            
+            // Добавляем пустые ячейки для каждого дня
+            weekDays.forEach(day => {
+                const hourSlot = document.createElement('div');
+                hourSlot.className = 'hour';
+                day.appendChild(hourSlot);
+            });
+        }
+    }
+
     updateScheduleDisplay() {
         if (!this.scheduleData) return;
         
@@ -120,7 +147,10 @@ export class Calendar {
         
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         
-        // Отмечаем открытые окошки
+        // Обновляем индекс часа с учетом нового начального часа
+        const getHourIndex = (hour) => hour - this.startHour;
+        
+        // Используем новую функцию в обработке слотов и уроков
         days.forEach((day, dayIndex) => {
             const dayElement = document.getElementById(day);
             if (!dayElement) return;
@@ -128,10 +158,12 @@ export class Calendar {
             const slots = this.scheduleData.weeklyOpenSlots[day];
             slots.forEach(time => {
                 const hour = parseInt(time.split(':')[0]);
-                const hourIndex = hour - 6;
-                const hourElement = dayElement.children[hourIndex];
-                if (hourElement) {
-                    hourElement.classList.add('open-window');
+                if (hour >= this.startHour && hour <= this.endHour) {
+                    const hourIndex = getHourIndex(hour);
+                    const hourElement = dayElement.children[hourIndex];
+                    if (hourElement) {
+                        hourElement.classList.add('open-window');
+                    }
                 }
             });
         });
@@ -147,16 +179,18 @@ export class Calendar {
                 
                 if (dayElement) {
                     const hour = parseInt(lesson.time.split(':')[0]);
-                    const hourIndex = hour - 6;
-                    const hourElement = dayElement.children[hourIndex];
-                    
-                    if (hourElement) {
-                        const wasOpen = hourElement.classList.contains('open-window');
-                        hourElement.innerHTML = this.createLessonHTML(lesson);
-                        if (wasOpen) {
-                            hourElement.classList.add('open-window');
+                    if (hour >= this.startHour && hour <= this.endHour) {
+                        const hourIndex = getHourIndex(hour);
+                        const hourElement = dayElement.children[hourIndex];
+                        
+                        if (hourElement) {
+                            const wasOpen = hourElement.classList.contains('open-window');
+                            hourElement.innerHTML = this.createLessonHTML(lesson);
+                            if (wasOpen) {
+                                hourElement.classList.add('open-window');
+                            }
+                            this.displayedLessons.add(lesson.id);
                         }
-                        this.displayedLessons.add(lesson.id);
                     }
                 }
             } else {
@@ -173,16 +207,18 @@ export class Calendar {
                     
                     if (dayElement) {
                         const hour = parseInt(lesson.time.split(':')[0]);
-                        const hourIndex = hour - 6;
-                        const hourElement = dayElement.children[hourIndex];
-                        
-                        if (hourElement) {
-                            const wasOpen = hourElement.classList.contains('open-window');
-                            hourElement.innerHTML = this.createLessonHTML(lesson);
-                            if (wasOpen) {
-                                hourElement.classList.add('open-window');
+                        if (hour >= this.startHour && hour <= this.endHour) {
+                            const hourIndex = getHourIndex(hour);
+                            const hourElement = dayElement.children[hourIndex];
+                            
+                            if (hourElement) {
+                                const wasOpen = hourElement.classList.contains('open-window');
+                                hourElement.innerHTML = this.createLessonHTML(lesson);
+                                if (wasOpen) {
+                                    hourElement.classList.add('open-window');
+                                }
+                                this.displayedLessons.add(lesson.id);
                             }
-                            this.displayedLessons.add(lesson.id);
                         }
                     }
                 }
@@ -241,13 +277,30 @@ export class Calendar {
             const response = await fetch(url);
             this.scheduleData = await response.json();
             
+            // Загружаем настройки рабочих часов
+            if (this.scheduleData.settings?.workingHours) {
+                this.startHour = this.scheduleData.settings.workingHours.start;
+                this.endHour = this.scheduleData.settings.workingHours.end;
+            }
+            
             document.querySelector('.teacher-name').textContent = 
                 `${this.scheduleData.teacher.firstName} ${this.scheduleData.teacher.lastName}`;
+            
+            // Генерируем слоты времени с новыми настройками
+            this.generateTimeSlots();
             
             this.updateCalendar();
             this.updateScheduleDisplay();
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
         }
+    }
+
+    // Добавим новый метод
+    updateWorkingHours(start, end) {
+        this.startHour = start;
+        this.endHour = end;
+        this.generateTimeSlots();
+        this.updateScheduleDisplay();
     }
 } 

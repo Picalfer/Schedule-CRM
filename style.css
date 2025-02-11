@@ -1,307 +1,257 @@
+:root {
+    --header-bg: #f0f7ff;
+    --border-color: #d4d6ff;
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --danger-color: #dc3545;
+    --danger-hover: #bb2d3b;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --open-window-bg: #fff1f2;
+    --permanent-lesson-bg: #e0e7ff;
+    --one-time-lesson-bg: #dcfce7;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: var(--text-primary);
+    line-height: 1.5;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер расписания */
 #schedule-container {
     width: 95%;
-    margin: 0 auto;
-    border: 1px solid rgb(185, 185, 185);
-    height: 85vh;
-    border: 1px solid lightgray;
-    margin-top: 5vh;
-    border-radius: 5px;
+    max-width: 1600px;
+    margin: 3vh auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    height: 95vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: linear-gradient(180deg,
+            white 0%,
+            #f0f7ff 30%,
+            #eef2ff 100%);
 }
 
-#headers {
-    display: flex;
-    flex-direction: row;
-}
-
-#schedule {
-    display: flex;
-    flex-direction: row;
-    overflow-y: auto;
-}
-
-.week-day {
-    width: calc((100% / 7) - 2px);
-    height: 100%;
-}
-
-.day-header {
-    background-color: rgb(185, 185, 185);
-    text-align: center;
-    padding: 10px;
-    width: calc((100% / 7) - 2px);
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.date {
-    font-size: 0.9em;
-    color: #333;
-}
-
-.hour {
-    width: 100%;
-    border: 1px solid gray;
-    height: 10vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(255, 255, 255);
-    margin: 2px 0;
-}
-
-.time-column {
-    border-right: 1px solid lightgray;
-    
-    width: calc((100% / 23) - 2px);
-}
-
-.time {
-    text-align: center;
-    height: 10vh;
-    display: flex;
-    flex-direction: column;
-    
-    margin: 2px 0;
-    justify-content: center;
-}
-
-.time-header {
-    background-color: rgb(185, 185, 185);
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    width: calc((100% / 23) - 2px);
-}
-
-.open-window {
-    background-color: antiquewhite;
-    transition: background-color 0.3s ease;
-}
-
-.lesson {
-    width: 95%;
-    height: 95%;
-    background-color: aliceblue;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    z-index: 1;
-}
-
-.lesson:hover {
-    background-color: #e6f3ff;
-    border-color: #999;
-}
-
-.lesson.permanent {
-    background-color: aliceblue;
-}
-
-.lesson.one-time {
-    background-color: #fff0f0; /* Нежно-розовый */
-}
-
-.lesson h4 {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.lesson h4::before {
-    content: attr(data-emoji);
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 0 auto;
-    padding: 20px;
-    width: 50%;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: auto;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.close {
-    position: absolute;
-    top: -5px;
-    right: 10px;
-    font-size: 30px;
-    cursor: pointer;
-    color: #333;
-}
-
-.modal-header,
-.modal-body {
-    margin-bottom: 20px;
-}
-
-.modal-header {
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #333;
-}
-
-.form-group input[type="text"],
-.form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.form-group input[readonly] {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 15px;
-    border-top: 1px solid #eee;
-}
-
-.submit-button,
-.cancel-button {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s;
-}
-
-.submit-button {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.submit-button:hover {
-    background-color: #45a049;
-}
-
-.cancel-button {
-    background-color: #f44336;
-    color: white;
-}
-
-.cancel-button:hover {
-    background-color: #da190b;
-}
-
+/* Заголовок и навигация */
 #week-info {
-    text-align: center;
     padding: 15px;
-    margin-bottom: 10px;
-}
-
-#week-info h2 {
-    font-size: 1.2em;
-    color: #333;
-    font-weight: 500;
-    margin: 0;
-    min-width: 400px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .week-navigation {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 50px 100px minmax(200px, auto) 50px;
     align-items: center;
-    justify-content: center;
     gap: 20px;
 }
 
-.nav-button {
-    padding: 8px 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    font-size: 1em;
-    transition: all 0.2s ease;
+.week-navigation h2 {
+    text-align: center;
 }
 
-.nav-button:hover {
-    background-color: #f0f0f0;
-    border-color: #999;
-}
-
-#current-week {
-    background-color: #e6e6e6;
-}
-
-.day-header.current-day {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.day-header.current-day .date {
-    color: #e0e0e0;
+.teacher-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
 }
 
 .teacher-name {
     font-size: 1.2em;
     font-weight: 500;
-    color: #333;
     padding: 8px 15px;
-    border-right: 1px solid #ccc;
-    margin-right: 20px;
+    border-right: 1px solid var(--border-color);
+}
+
+/* Сетка расписания */
+#headers {
+    display: flex;
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding-right: 8px;
+}
+
+.time-header {
+    width: 80px;
+    flex-shrink: 0;
+}
+
+.time-header,
+.day-header {
+    padding: 10px;
+    font-weight: 500;
+    text-align: center;
+    border-right: 1px solid var(--border-color);
+}
+
+.day-header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: var(--header-bg);
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Основной контейнер расписания */
+#schedule {
+    display: flex;
+    scrollbar-gutter: stable;
+    overflow-y: auto;
+    flex: 0 1 auto;
+    position: relative;
+    min-height: 0;
+    background-color: white;
+    /* Белый фон для области с контентом */
+}
+
+/* Колонка времени */
+.time-column {
+    width: 80px;
+    flex: 0 0 80px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    height: max-content;
+    background-color: white;
+    /* Белый фон для контента */
+}
+
+/* Дни недели */
+.week-day {
+    display: flex;
+    height: max-content;
+    border-right: 1px solid var(--border-color);
+    background-color: white;
+    /* Белый фон для контента */
+    flex: 1 0 120px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Вертикальные границы для дней недели */
+.week-day:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+/* Ячейки времени и часов */
+.time,
+.hour {
+    height: 100px;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex: 0 0 auto;
+}
+
+/* Сам урок */
+.lesson {
+    height: 90%;
+    width: 90%;
+    padding: 8px 10px;
+    margin: auto 0;
+    margin-left: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85em;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.lesson:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lesson.permanent {
+    background-color: var(--permanent-lesson-bg);
+    border-color: #bbdefb;
+}
+
+.lesson.one-time {
+    background-color: var(--one-time-lesson-bg);
+    border-color: #a5d6a7;
+}
+
+.lesson h4 {
+    margin: 0;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lesson p {
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Текущий день */
+.day-header.current-day {
+    background: linear-gradient(135deg, var(--primary-color), #818cf8);
+    color: white;
+    border-bottom: 2px solid var(--primary-hover);
+}
+
+/* Кнопки */
+.nav-button {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+    background-color: var(--header-bg);
+    border-color: var(--text-secondary);
+}
+
+#current-week {
+    background: linear-gradient(135deg, var(--primary-color), #818cf8);
+    color: white;
+    border: none;
+}
+
+#current-week:hover {
+    background: linear-gradient(135deg, var(--primary-hover), #6366f1);
+}
+
+.day-header.current-day .date {
+    color: #e0e0e0;
 }
 
 .lesson-info {
@@ -343,4 +293,325 @@
 
 .form-group.error .error-message {
     display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    margin: 0 auto;
+    padding: 20px;
+    width: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close {
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--header-bg), #ffffff);
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+}
+
+.modal-header h3 {
+    color: var(--text-primary);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.submit-button,
+.cancel-button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.submit-button {
+    background: linear-gradient(135deg, var(--primary-color), #818cf8);
+    color: white;
+}
+
+.submit-button:hover {
+    background: linear-gradient(135deg, var(--primary-hover), #6366f1);
+    transform: translateY(-1px);
+}
+
+.cancel-button {
+    background-color: white;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+.cancel-button:hover {
+    background-color: var(--header-bg);
+    border-color: var(--text-secondary) !important;
+}
+
+/* Открытые окошки */
+.open-window {
+    background: linear-gradient(45deg, #f0f9ff, #e0f2fe);
+    /* Нежно-голубой градиент */
+    border-left: 3px solid #38bdf8;
+    /* Голубой */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.open-window:hover {
+    background: linear-gradient(45deg, #e0f2fe, #bae6fd);
+    border-left: 3px solid #0ea5e9;
+}
+
+/* Урок в открытом окошке */
+.open-window .lesson {
+    background: white;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1;
+}
+
+.open-window .lesson:hover {
+    border-color: var(--primary-color);
+}
+
+.open-window .lesson.permanent {
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+    border-left: 3px solid var(--primary-color);
+}
+
+.open-window .lesson.one-time {
+    background: linear-gradient(135deg, #f0f7f0 0%, #ffffff 100%);
+    border-left: 3px solid #4caf50;
+}
+
+/* Стилизуем сам скроллбар */
+#schedule::-webkit-scrollbar {
+    width: 8px;
+}
+
+#schedule::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#schedule::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#schedule::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для модального окна в зависимости от типа урока */
+.modal-content.permanent {
+    border-left: 4px solid var(--primary-color);
+}
+
+.modal-content.permanent .modal-header {
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+}
+
+.modal-content.permanent .submit-button {
+    background-color: var(--primary-color);
+}
+
+.modal-content.permanent .submit-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.modal-content.one-time {
+    border-left: 4px solid #4caf50;
+}
+
+.modal-content.one-time .modal-header {
+    background: linear-gradient(135deg, #f0f7f0 0%, #ffffff 100%);
+}
+
+.modal-content.one-time .submit-button {
+    background-color: #4caf50;
+}
+
+.modal-content.one-time .submit-button:hover {
+    background-color: #45a049;
+}
+
+/* Стили для настроек модального окна */
+#settings-modal .modal-content {
+    max-width: 500px;
+    width: 90%;
+}
+
+#settings-modal .form-group {
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 16px;
+}
+
+#settings-modal select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+}
+
+#settings-modal select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Обновленные стили для кнопок в модальных окнах */
+.modal-footer {
+    padding: 20px 24px;
+    background: white;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 16px 16px;
+}
+
+.modal-footer button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Обновленные стили для кнопки настроек */
+.icon-button {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--header-bg), #ffffff);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+    color: var(--primary-color);
+    box-shadow:
+        0 2px 4px rgba(99, 102, 241, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.icon-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.icon-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(99, 102, 241, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.icon-button:hover::before {
+    opacity: 1;
+}
+
+.icon-button:active {
+    transform: translateY(0);
+    box-shadow:
+        0 1px 2px rgba(99, 102, 241, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Анимация вращения для иконки настроек */
+.icon-button:hover span {
+    animation: spin 0.8s ease;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
 }

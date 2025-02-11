@@ -5,6 +5,12 @@
         "lastName": "Иванова",
         "subject": "Программирование"
     },
+    "settings": {
+        "workingHours": {
+            "start": 6,
+            "end": 18
+        }
+    },
     "weeklyOpenSlots": {
         "monday": ["08:00", "09:00", "10:00"],
         "tuesday": ["08:00"],
