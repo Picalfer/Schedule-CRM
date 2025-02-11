@@ -243,3 +243,12 @@
 .day-header.current-day .date {
     color: #e0e0e0;
 }
+
+.teacher-name {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #333;
+    padding: 8px 15px;
+    border-right: 1px solid #ccc;
+    margin-right: 20px;
+}

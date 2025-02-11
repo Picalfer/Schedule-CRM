@@ -1,0 +1,43 @@
+{
+    "teacher": {
+        "id": "t123",
+        "firstName": "Марина",
+        "lastName": "Иванова",
+        "subject": "Программирование"
+    },
+    "weeklyOpenSlots": {
+        "monday": ["08:00", "09:00", "10:00"],
+        "tuesday": ["08:00"],
+        "wednesday": ["08:00"],
+        "thursday": ["08:00"],
+        "friday": ["08:00", "09:00", "10:00"],
+        "saturday": ["17:00"],
+        "sunday": []
+    },
+    "lessons": [
+        {
+            "id": "l1",
+            "date": "2025-02-10",
+            "time": "08:00",
+            "student": "Андрей(Марина)",
+            "subject": "Roblox Studio",
+            "status": "permanent"
+        },
+        {
+            "id": "l2",
+            "date": "2025-02-10",
+            "time": "09:00",
+            "student": "Иван(Марина)",
+            "subject": "Python",
+            "status": "one-time"
+        },
+        {
+            "id": "l3",
+            "date": "2025-02-14",
+            "time": "08:00",
+            "student": "Мария(Марина)",
+            "subject": "Scratch",
+            "status": "permanent"
+        }
+    ]
+} 
